@@ -2,26 +2,35 @@
 $servername = "localhost";
 $username = "root";
 $password = ""; // Assicurati che la password sia vuota se non ne hai una
-$dbname = "noleggioClaudio";
+$dbname = "claudionoleggio";
 
 // Recupera i valori inviati tramite il metodo POST
-$nome = $_POST["nome"];
-$cognome = $_POST["cognome"];
-$email = $_POST["email"];
-$user_password = $_POST["pass"]; // In questo caso, si è assunto che il campo della password si chiami "password"
 
-// Connessione al database
+
 $db_con = mysqli_connect($servername, $username, $password, $dbname);
+if ($db_con) {
+    
+    echo("utente registrato correttamente");
+    echo("<br>");
+    $nome = $_POST["nome"];
+    $cognome = $_POST["cognome"];
+    $username = $_POST["username"];
+    $cff = $_POST["cff"];
+    $password = $_POST["psw"];
+    $email = $_POST["email"];
+    echo("nome: ". $nome );
+    echo("<br>");
+    echo("cognome: ".$cognome);
+    echo("<br>");
+    echo("cff: ".$cff);
+    echo("<br>");
+    echo ("password: ".$password);
+    echo("<br>");
+    echo ("email: ".$email);
+    mysqli_query(
+        $db_con, "INSERT INTO `utente`(`CF`, `Username`, `Nome`, `Cognome`,  `Email`, `PSW`) VALUES ('$cff','$username', '$nome','$cognome', '$email','$password')"
+    );
 
-// Query SQL per inserire i dati dell'utente nel database
-$query = "INSERT INTO utente (nome, cognome, email, password) VALUES ('$nome', '$cognome', '$email', '$user_password')";
-
-// Esegui la query
-if (mysqli_query($db_con, $query)) {
-    header("Location: ../../index.html");
-} else {
-    echo "Errore";
-}
-// Chiudi la connessione al database
-mysqli_close($db_con);
+};
 ?>
+
